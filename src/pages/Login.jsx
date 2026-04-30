@@ -1,10 +1,58 @@
-
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router';
+import { useAuth } from '../context/AuthContext';
 import logo from '../../public/logo1.png';
 
 import React from 'react';
 
 const Login = () => {
-  const {login, } = use
+  const { login, googleSignIn } = useAuth;
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    try {
+      await login(email, password);
+      navigate('/dashboard');
+    } catch (err) {
+      setError(getErrorMessage(err.code));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleGoogle() {
+    setError('');
+    setGoogleLoading(true);
+    try {
+      await googleSignIn();
+      navigate('/dashboard');
+    } catch (err) {
+      setError(getErrorMessage(err.code));
+    } finally {
+      setGoogleLoading(false);
+    }
+  }
+
+  function getErrorMessage(code) {
+    const map = {
+      'auth/user-not-found': 'No account found with this email.',
+      'auth/wrong-password': 'Incorrect password.',
+      'auth/invalid-email': 'Invalid email address.',
+      'auth/too-many-requests': 'Too many attempts. Try again later.',
+      'auth/invalid-credential': 'Invalid email or password.',
+    };
+    return map[code] || 'Something went wrong. Please try again.';
+  }
+  
   return (
     <div className='bg-mesh min-h-screen flex items-center justify-center p-4'>
       <div className='w-full max-w-md animate-fade-in '>
