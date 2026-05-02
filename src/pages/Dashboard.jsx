@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useJobs } from '../hooks/useJobs';
-import JobCard from '../component/JobCard';
-import AddJobModal from '../component/AddJobModal';
-import StatusBadge from '../component/StatusBadge';
+import JobCard from '../components/JobCard';
+import AddJobModal from '../components/AddJobModal';
+import StatusBadge from '../components/StatusBadge';
 
 
 const STATUSES = ['all', 'applied', 'interview', 'offer', 'rejected'];
@@ -65,7 +65,7 @@ const STAT_CARDS = [
 
 export default function Dashboard() {
   const { currentUser } = useAuth();
-  const { jobs, loading, addJob, updateJob, deleteJob } = useJobs();
+  const { jobs = [], loading, addJob, updateJob, deleteJob } = useJobs();
   const [showModal, setShowModal] = useState(false);
   const [activeFilter, setActiveFilter] = useState('all');
   const [search, setSearch] = useState('');
