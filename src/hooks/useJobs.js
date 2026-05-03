@@ -42,9 +42,10 @@ export function useJobs() {
 
   async function addJob(jobData) {
     const jobsRef = collection(db, "users", currentUser.uid, "jobs");
-    await addDoc(jobsRef, {
+    // await সরিয়ে দাও
+    addDoc(jobsRef, {
       ...jobData,
-      createdAt: serverTimestamp(),
+      createdAt: new Date().toISOString(),
     });
   }
 

@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
 
 const STATUS_OPTIONS = ['applied', 'interview', 'offer', 'rejected'];
 
 export default function AddJobModal({ onClose, onAdd }) {
-  const { currentUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [form, setForm] = useState({
@@ -20,23 +18,14 @@ export default function AddJobModal({ onClose, onAdd }) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     if (!form.company || !form.role) {
       setError('Company and Role are required.');
       return;
     }
-    setLoading(true);
-    setError('');
-    try {
-      await onAdd(form);
-      onClose();
-    } catch (err) {
-      setError('Failed to add job. Please try again.');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+    onAdd(form);
+    onClose();
   }
 
   return (
@@ -176,18 +165,9 @@ export default function AddJobModal({ onClose, onAdd }) {
             <button
               id="submit-job-btn"
               type="submit"
-              disabled={loading}
-              className="flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold text-white btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold text-white btn-primary"
             >
-              {loading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-                  </svg>
-                  Adding...
-                </span>
-              ) : 'Add Job'}
+              Add Job
             </button>
           </div>
         </form>

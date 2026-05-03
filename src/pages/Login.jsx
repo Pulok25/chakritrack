@@ -3,10 +3,8 @@ import { Link, useNavigate } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 import logo from '../../public/logo1.png';
 
-import React from 'react';
-
 const Login = () => {
-  const { login, googleSignIn } = useAuth;
+  const { login, googleSignIn } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -52,36 +50,34 @@ const Login = () => {
     };
     return map[code] || 'Something went wrong. Please try again.';
   }
-  
+
   return (
-    <div className='bg-mesh min-h-screen flex items-center justify-center p-4'>
-      <div className='w-full max-w-md animate-fade-in '>
-        {/* logo */}
-        <div className='text-center mb-8'>
-          <div className='inline-flex items-center justify-center w-20 h-18 rounded-2xl  shadow-lg shadow-indigo-500/30 mb-4'>
-            <img src={logo} alt="null" />
-
+    <div className="bg-mesh min-h-screen flex items-center justify-center p-4">
+      <div className="w-full max-w-md animate-fade-in">
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-20 h-18 rounded-2xl shadow-lg shadow-indigo-500/30 mb-4">
+            <img src={logo} alt="ChakriTrack logo" />
           </div>
-          <h1 className='text-3xl font-bold gradient-text'> ChakriTrack</h1>
-          <p className='text-slate-500 text-sm mt-1'>Sign In</p>
-
-
+          <h1 className="text-3xl font-bold gradient-text">ChakriTrack</h1>
+          <p className="text-slate-500 text-sm mt-1">Sign In</p>
         </div>
-        <div className='glass rounded-2xl shadow-2xl border border-white/5'>
-              {error && (
+
+        <div className="glass rounded-2xl shadow-2xl border border-white/5 px-6 py-8">
+          {error && (
             <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-xl mb-5">
               {error}
             </div>
           )}
-        </div>
-         {/* Google Sign In */}
-         <button
-            id="google-signin-btn"
-            
-            className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-sm font-medium text-slate-200 transition-all mb-5 disabled:opacity-50"
-          >
 
-             {googleLoading ? (
+          {/* Google Sign In */}
+          <button
+            id="google-signin-btn"
+            onClick={handleGoogle}
+            disabled={googleLoading || loading}
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-sm font-medium text-slate-200 transition-all mb-5 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {googleLoading ? (
               <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
@@ -95,14 +91,15 @@ const Login = () => {
               </svg>
             )}
             Continue with Google
-
           </button>
+
           <div className="flex items-center gap-3 mb-5">
             <div className="flex-1 h-px bg-white/10" />
             <span className="text-xs text-slate-600">or continue with email</span>
             <div className="flex-1 h-px bg-white/10" />
           </div>
-           <form onSubmit={handleSubmit} className="space-y-4">
+
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-medium text-slate-400 mb-1.5">Email</label>
               <input
@@ -164,16 +161,15 @@ const Login = () => {
               ) : 'Sign In'}
             </button>
           </form>
+
           <p className="text-center text-sm text-slate-500 mt-6">
             Don't have an account?{' '}
             <Link to="/register" className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
               Create one
             </Link>
           </p>
-          
-
+        </div>
       </div>
-
     </div>
   );
 };

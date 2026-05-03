@@ -64,7 +64,7 @@ const STAT_CARDS = [
 ];
 
 export default function Dashboard() {
-  const { currentUser } = useAuth();
+  const { currentUser, logout } = useAuth();
   const { jobs = [], loading, addJob, updateJob, deleteJob } = useJobs();
   const [showModal, setShowModal] = useState(false);
   const [activeFilter, setActiveFilter] = useState('all');
@@ -102,16 +102,30 @@ export default function Dashboard() {
             You have <span className="text-slate-300 font-medium">{jobs.length}</span> job application{jobs.length !== 1 ? 's' : ''} tracked
           </p>
         </div>
-        <button
-          id="add-job-btn"
-          onClick={() => setShowModal(true)}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white btn-primary shadow-lg shadow-indigo-500/20 shrink-0"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-          Add Job
-        </button>
+
+        <div className="flex items-center gap-3 shrink-0">
+          <button
+            id="add-job-btn"
+            onClick={() => setShowModal(true)}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white btn-primary shadow-lg shadow-indigo-500/20"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            Add Job
+          </button>
+
+          <button
+            id="logout-btn"
+            onClick={() => logout()}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-400 border border-white/10 hover:text-red-400 hover:border-red-500/30 hover:bg-red-500/10 transition-all"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            Logout
+          </button>
+        </div>
       </div>
 
       {/* Stat Cards */}
